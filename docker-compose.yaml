@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: app_postgis
+    restart: always
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DB}
+    ports:
+      - "${PG_PORT}:${PG_PORT}"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  
+
+  backend:
+    container_name: backend
+    env_file: .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python main.py
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    depends_on:
+      - db
+    restart: always
+
+volumes:
+  postgres_data:
