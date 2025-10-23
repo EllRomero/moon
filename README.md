@@ -82,9 +82,9 @@ uv run src/main.py
 export $(cat ../.env | xargs) && uv run main.py
 ```
 
-#### Запуск тестов
+#### Заполнить бд данными (где count, количество данных в бд, можно без флага, по дефолту 10)
 ```bash
-uv run pytest -q
+uv run dev_utils/create_new_data_to_db.py -count 1
 ```
 <br>
 
